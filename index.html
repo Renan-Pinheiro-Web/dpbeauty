@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP Beauty Gestão | Consultoria Premium de Cosméticos</title>
+    <meta name="description"
+        content="Transforme sua visão em uma marca de cosméticos de sucesso. Gestão completa do zero à prateleira com Diego Pinheiro.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dp: {
+                            blue: '#081E60',       /* Azul Oficial */
+                            silver: '#B1B2B0',     /* Prata Base */
+                            silverLight: '#D8DADB',/* Prata Claro */
+                            silverDark: '#8E8F8D', /* Prata Escuro */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'], /* Fonte premium para títulos */
+                    },
+                    backgroundImage: {
+                        'metallic': 'linear-gradient(45deg, #8E8F8D 0%, #B1B2B0 50%, #D8DADB 100%)',
+                        'metallic-hover': 'linear-gradient(45deg, #D8DADB 0%, #B1B2B0 50%, #8E8F8D 100%)',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(177, 178, 176, 0.3)',
+                        'metallic': '0 4px 15px rgba(142, 143, 141, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+
+
+</head>
+
+<body class="bg-gray-50">
+
+    <nav class="fixed w-full z-50 bg-dp-blue/95 backdrop-blur-md border-b border-dp-silver/20" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-28 md:h-36">
+
+                <div class="flex-shrink-0">
+                    <a href="#inicio">
+                        <img src="ChatGPT_Image_15_de_jan._de_2026__09_00_51-removebg-preview.png" alt="Logo"
+                            class="h-20 md:h-32 w-auto object-contain">
+                    </a>
+                </div>
+
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#inicio"
+                        class="nav-link-line py-2 text-gray-300 hover:text-white text-sm uppercase tracking-wide transition">Início</a>
+                    <a href="#sobre"
+                        class="nav-link-line py-2 text-gray-300 hover:text-white text-sm uppercase tracking-wide transition">Sobre</a>
+                    <a href="#servicos"
+                        class="nav-link-line py-2 text-gray-300 hover:text-white text-sm uppercase tracking-wide transition">Serviços</a>
+                    <a href="#ebook"
+                        class="nav-link-line py-2 text-gray-300 hover:text-white text-sm uppercase tracking-wide transition">Ebook</a>
+                    <a href="#contato"
+                        class="bg-metallic hover:bg-metallic-hover text-dp-blue font-bold py-2 px-6 rounded-sm shadow-metallic transition transform hover:-translate-y-0.5">Fale
+                        Conosco</a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-dp-silver hover:text-white focus:outline-none p-2">
+                        <i id="menu-icon" class="fas fa-bars text-3xl transition-transform duration-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden bg-dp-blue border-t border-dp-silver/10">
+            <div class="px-6 py-8 space-y-6">
+                <a href="#inicio"
+                    class="mobile-link block text-xl text-gray-300 hover:text-white border-b border-white/5 pb-2">Início</a>
+                <a href="#sobre"
+                    class="mobile-link block text-xl text-gray-300 hover:text-white border-b border-white/5 pb-2">Sobre</a>
+                <a href="#servicos"
+                    class="mobile-link block text-xl text-gray-300 hover:text-white border-b border-white/5 pb-2">Serviços</a>
+                <a href="#ebook"
+                    class="mobile-link block text-xl text-gray-300 hover:text-white border-b border-white/5 pb-2">Ebook</a>
+                <a href="#contato"
+                    class="mobile-link block text-center bg-metallic text-dp-blue font-bold py-4 rounded-sm uppercase">Fale
+                    Conosco</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio"
+        class="relative pt-40 pb-20 lg:pt-56 lg:pb-32 bg-dp-blue overflow-hidden min-h-screen flex items-center">
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-dp-silver/5 rounded-full blur-[100px] opacity-40">
+        </div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-black/40 rounded-full blur-[80px]"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="reveal">
+                <span
+                    class="inline-block py-1 px-3 rounded border border-dp-silver/30 text-dp-silver text-xs uppercase tracking-[0.2em] mb-6 backdrop-blur-sm">
+                    Consultoria Premium em Cosméticos
+                </span>
+
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-tight mb-8">
+
+                    <span class="text-metallic">A Formula da Beleza</span>
+                </h1>
+
+                <p class="text-lg text-gray-300 mb-10 font-light max-w-2xl mx-auto leading-relaxed">
+                    Transforme sua visão em uma marca de alto padrão. Atuamos nos bastidores com estratégia,
+                    regulamentação e excelência para que você brilhe no mercado.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="#contato"
+                        class="bg-metallic hover:bg-metallic-hover text-dp-blue font-bold py-4 px-10 rounded-sm shadow-glow transform hover:scale-105 transition duration-300 uppercase tracking-wider">
+                        Quero criar minha marca
+                    </a>
+                    <a href="#servicos"
+                        class="border border-dp-silver/50 text-dp-silver hover:bg-dp-silver/10 font-medium py-4 px-10 rounded-sm transition duration-300 uppercase tracking-wider">
+                        Conhecer Serviços
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <h2 class="text-dp-blue font-serif text-3xl md:text-4xl font-bold mb-6 relative inline-block">
+                        A Excelência nos Bastidores
+                        <span class="block h-1 w-20 bg-dp-blue mt-4"></span>
+                    </h2>
+
+                    <div class="space-y-4 text-gray-600 text-base leading-relaxed">
+                        <p>
+                            A <strong>DP Beauty Gestão</strong> nasceu para preencher uma lacuna no mercado de beleza: a
+                            necessidade de uma execução estratégica impecável. Não somos apenas consultores; somos
+                            parceiros
+                            de execução.
+                        </p>
+                        <p>
+                            Nossa expertise reside em materializar sonhos através de processos estruturados, gestão
+                            regulatória
+                            rigorosa e estratégias de venda validadas.
+                        </p>
+                        <p>
+                            Atuamos onde a maioria falha: na transição do conceito abstrato para o produto físico
+                            rentável e sólido.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4 reveal delay-200">
+
+                    <div
+                        class="bg-gray-50 p-4 border-l-4 border-dp-blue shadow-sm hover:shadow-md transition-all duration-300 group flex items-start">
+                        <div
+                            class="w-10 h-10 bg-dp-blue/10 rounded-full flex-shrink-0 flex items-center justify-center mr-4 group-hover:bg-dp-blue transition-colors">
+                            <i class="fas fa-bullseye text-dp-blue text-sm group-hover:text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-serif font-bold text-dp-blue text-lg mb-1">Missão</h4>
+                            <p class="text-gray-600 text-sm leading-snug">
+                                Realizar o sonho de empreendedores de terem sua própria marca de cosméticos,
+                                através de uma gestão completa, transparente e especializada, que cuida de todo o
+                                processo, do zero à prateleira.
+
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-gray-50 p-4 border-l-4 border-dp-silver shadow-sm hover:shadow-md transition-all duration-300 group flex items-start">
+                        <div
+                            class="w-10 h-10 bg-dp-silver/10 rounded-full flex-shrink-0 flex items-center justify-center mr-4 group-hover:bg-dp-silver transition-colors">
+                            <i class="fas fa-eye text-dp-blue text-sm group-hover:text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-serif font-bold text-dp-blue text-lg mb-1">Visão</h4>
+                            <p class="text-gray-600 text-sm leading-snug">
+                                Ser a consultoria de gestão de marcas de beleza mais respeitada do Brasil,
+                                reconhecida por transformar projetos em negócios sólidos, inovadores e de sucesso
+                                no mercado.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-gray-50 p-4 border-l-4 border-dp-blue shadow-sm hover:shadow-md transition-all duration-300 group flex items-start">
+                        <div
+                            class="w-10 h-10 bg-dp-blue/10 rounded-full flex-shrink-0 flex items-center justify-center mr-4 group-hover:bg-dp-blue transition-colors">
+                            <i class="fas fa-gem text-dp-blue text-sm group-hover:text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-serif font-bold text-dp-blue text-lg mb-1">Valores</h4>
+                            <p class="text-gray-600 text-sm leading-snug">
+                                Expertise, Transparência absoluta, excelência obsessiva nos detalhes e compromisso
+                                inabalável com resultados.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-dp-blue relative overflow-hidden">
+        <div
+            class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')]">
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col items-center text-center reveal">
+
+                <h3 class="text-dp-silver uppercase tracking-[0.2em] text-sm font-bold mb-4">Fundador</h3>
+
+                <div class="flex items-center justify-center gap-4 mb-8 w-full">
+                    <div class="hidden sm:block h-[1px] bg-dp-silver/30 flex-grow"></div>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white font-bold whitespace-nowrap">Diego Pinheiro
+                    </h2>
+                    <div class="hidden sm:block h-[1px] bg-dp-silver/30 flex-grow"></div>
+                </div>
+
+                <div class="space-y-6 max-w-3xl">
+                    <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+                        Com mais de <span class="text-dp-silver font-bold">+10 anos de experiência</span> na indústria
+                        de cosméticos, Diego Pinheiro construiu sua carreira com forte autoridade em vendas e
+                        desenvolvimento de produtos, liderando estratégias comerciais e orientando profissionais e
+                        empresários por meio de mentoria prática e estratégica.
+                    </p>
+
+                    <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+                        Sua filosofia é a do <strong class="text-white">"trabalho silencioso"</strong>: atuar nos
+                        bastidores com precisão cirúrgica para que a marca do cliente seja a protagonista. Especialista
+                        em tirar projetos do papel e transformá-los em produtos físicos vendáveis e lucrativos.
+                    </p>
+                </div>
+
+                <div class="mt-12 inline-block border-t border-b border-dp-silver/30 py-8 px-6">
+                    <p class="text-xl md:text-2xl font-serif italic text-dp-silverLight max-w-2xl mx-auto leading-snug">
+                        "Aquele que muito revela, entrega sua fortaleza ao inimigo. Aquele que domina o silêncio, ergue
+                        impérios invisíveis. O silêncio é o idioma dos vencedores."
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-dp-blue font-bold uppercase tracking-widest text-sm">O que fazemos</span>
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-dp-blue mt-2">Gestão 360º</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-dp-silver to-dp-silverLight mx-auto mt-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    class="bg-white p-8 shadow-lg hover:shadow-2xl transition duration-500 border-t-4 border-dp-blue group reveal">
+                    <div
+                        class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-dp-blue transition duration-300">
+                        <i class="fas fa-chess-queen text-2xl text-dp-blue group-hover:text-dp-silver"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dp-blue mb-4">Planejamento Estratégico</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Definição de posicionamento, público-alvo e
+                        viabilidade financeira da marca.</p>
+                </div>
+
+                <div
+                    class="bg-white p-8 shadow-lg hover:shadow-2xl transition duration-500 border-t-4 border-dp-silver group reveal delay-100">
+                    <div
+                        class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-dp-silver transition duration-300">
+                        <i class="fas fa-flask text-2xl text-dp-blue group-hover:text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dp-blue mb-4">Desenvolvimento de Produtos</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Criação de fórmulas exclusivas, seleção de
+                        embalagens e design de rótulos.</p>
+                </div>
+
+                <div
+                    class="bg-white p-8 shadow-lg hover:shadow-2xl transition duration-500 border-t-4 border-dp-blue group reveal delay-200">
+                    <div
+                        class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-dp-blue transition duration-300">
+                        <i class="fas fa-file-contract text-2xl text-dp-blue group-hover:text-dp-silver"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dp-blue mb-4">Gestão Regulatória (ANVISA)</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Cuidamos de toda a burocracia e notificações para
+                        garantir a legalidade.</p>
+                </div>
+
+                <div
+                    class="bg-white p-8 shadow-lg hover:shadow-2xl transition duration-500 border-t-4 border-dp-silver group reveal">
+                    <div
+                        class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-dp-silver transition duration-300">
+                        <i class="fas fa-industry text-2xl text-dp-blue group-hover:text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dp-blue mb-4">Produção e Logística</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Acompanhamento fabril e estruturação da cadeia de
+                        suprimentos.</p>
+                </div>
+
+                <div
+                    class="bg-white p-8 shadow-lg hover:shadow-2xl transition duration-500 border-t-4 border-dp-blue group reveal delay-100">
+                    <div
+                        class="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-dp-blue transition duration-300">
+                        <i class="fas fa-rocket text-2xl text-dp-blue group-hover:text-dp-silver"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dp-blue mb-4">Estratégia de Lançamento</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">Plano de go-to-market focado em conversão e
+                        penetração de mercado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-dp-blue border-t border-dp-silver/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="reveal p-6 glass-card rounded-xl">
+                    <i class="fas fa-check-circle text-dp-silver text-3xl mb-4"></i>
+                    <h4 class="text-white font-bold mb-2">Zero à Prateleira</h4>
+                    <p class="text-gray-400 text-sm">Cuidamos de 100% das etapas do processo.</p>
+                </div>
+                <div class="reveal delay-100 p-6 glass-card rounded-xl">
+                    <i class="fas fa-tools text-dp-silver text-3xl mb-4"></i>
+                    <h4 class="text-white font-bold mb-2">Abordagem Prática</h4>
+                    <p class="text-gray-400 text-sm">Sem teorias vazias. Foco na execução real.</p>
+                </div>
+                <div class="reveal delay-200 p-6 glass-card rounded-xl">
+                    <i class="fas fa-user-secret text-dp-silver text-3xl mb-4"></i>
+                    <h4 class="text-white font-bold mb-2">Bastidores Fortes</h4>
+                    <p class="text-gray-400 text-sm">Você aparece, nós garantimos que tudo funcione.</p>
+                </div>
+                <div class="reveal delay-300 p-6 glass-card rounded-xl">
+                    <i class="fas fa-chart-line text-dp-silver text-3xl mb-4"></i>
+                    <h4 class="text-white font-bold mb-2">Experiência Real</h4>
+                    <p class="text-gray-400 text-sm">Metodologia validada em dezenas de projetos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ebook" class="py-24 bg-gradient-to-br from-gray-900 to-dp-blue relative overflow-hidden">
+        <div
+            class="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-16">
+
+                <div class="order-2 lg:order-1 flex justify-center w-full lg:w-1/2 reveal">
+                    <div class="book-container">
+                        <a href="https://pay.hotmart.com/P103798039Q?checkoutMode=10" target="_blank"
+                            class="book cursor-pointer block">
+                            <div class="book-front">
+                                <img src="IMG-20260115-WA0000.jpg" alt="Capa Ebook Como Criar Sua Marca"
+                                    class="w-full h-full object-cover">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="order-1 lg:order-2 w-full lg:w-1/2 text-center lg:text-left reveal delay-100">
+                    <span class="text-dp-silver font-bold uppercase tracking-widest text-sm mb-4 block">Material
+                        Exclusivo</span>
+                    <h2 class="text-4xl font-serif text-white font-bold mb-6">O Manual Definitivo do Empreendedor da
+                        Beleza</h2>
+                    <p class="text-gray-300 text-lg mb-8 leading-relaxed">
+                        Não sabe por onde começar? Compilei todo o meu conhecimento prático neste ebook. Descubra os
+                        atalhos, evite erros caros e entenda o passo a passo exato para lançar sua marca.
+                    </p>
+
+                    <a href="https://pay.hotmart.com/P103798039Q?checkoutMode=10" target="_blank"
+                        class="inline-flex items-center justify-center bg-metallic hover:bg-metallic-hover text-dp-blue font-bold py-4 px-10 rounded-sm shadow-glow transform hover:scale-105 transition duration-300 w-full sm:w-auto">
+                        <i class="fas fa-download mr-3"></i>
+                        COMPRAR EBOOK AGORA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white text-center">
+        <div class="max-w-4xl mx-auto px-4 reveal">
+            <h2 class="text-3xl md:text-5xl font-serif font-bold text-dp-blue mb-8">Sua marca não pode mais esperar.
+            </h2>
+            <p class="text-lg text-gray-500 mb-10">O mercado de cosméticos não para de crescer. Garanta seu lugar com
+                uma gestão profissional.</p>
+            <a href="#contato"
+                class="inline-block bg-dp-blue text-white hover:bg-dp-blue/90 border border-dp-blue font-bold py-4 px-12 rounded-sm transition duration-300 shadow-xl uppercase tracking-wider text-lg">
+                Quero tirar minha marca do papel
+            </a>
+        </div>
+    </section>
+
+    <section id="ebooks-gratuitos" class="py-24 bg-dp-blue relative overflow-hidden border-t border-dp-silver/20">
+        <div
+            class="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')]">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+                <div class="reveal">
+                    <span class="text-dp-silver font-bold uppercase tracking-widest text-sm mb-4 block">Conhecimento
+                        Extra</span>
+                    <h2 class="text-3xl md:text-4xl font-serif text-white font-bold mb-8">Biblioteca de Estratégia</h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center lg:justify-items-start">
+
+                        <div class="flex flex-col items-center">
+                            <div class="book-container scale-[0.6] origin-top sm:origin-left">
+                                <div class="book">
+                                    <div class="book-front">
+                                        <img src="topo.jpg" alt="Ebook Vendas" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-dp-silver text-xs mt-[-60px] font-bold uppercase text-center">Do Zero ao Topo
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div class="book-container scale-[0.6] origin-top sm:origin-left">
+                                <div class="book">
+                                    <div class="book-front">
+                                        <img src="lucro.jpg" alt="Ebook Branding" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-dp-silver text-xs mt-[-60px] font-bold uppercase text-center">Lucro Revelado
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <div class="book-container scale-[0.6] origin-top sm:origin-left">
+                                <div class="book">
+                                    <div class="book-front">
+                                        <img src="liderar.jpg" alt="Ebook Anvisa" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-dp-silver text-xs mt-[-60px] font-bold uppercase text-center">Liderar e
+                                Decidir</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="reveal delay-200">
+                    <div class="glass-card p-8 rounded-xl border border-dp-silver/20 shadow-glow">
+                        <h3 class="text-2xl font-serif text-white mb-2">Libere seu Acesso</h3>
+                        <p class="text-gray-400 text-sm mb-6">Preencha os dados abaixo para desbloquear o download dos 3
+                            materiais exclusivos.</p>
+
+                        <form id="form-ebooks" class="space-y-4">
+                            <div>
+                                <label class="block text-dp-silver text-xs uppercase tracking-widest mb-2 ml-1">Nome
+                                    Completo</label>
+                                <input type="text" required placeholder="Seu nome aqui"
+                                    class="w-full bg-dp-blue/50 border border-dp-silver/30 rounded-sm py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-dp-silver transition">
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        class="block text-dp-silver text-xs uppercase tracking-widest mb-2 ml-1">E-mail</label>
+                                    <input type="email" required placeholder="seu@email.com"
+                                        class="w-full bg-dp-blue/50 border border-dp-silver/30 rounded-sm py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-dp-silver transition">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-dp-silver text-xs uppercase tracking-widest mb-2 ml-1">Telefone
+                                        (WhatsApp)</label>
+                                    <input type="tel" id="tel" required placeholder="(00) 00000-0000"
+                                        class="w-full bg-dp-blue/50 border border-dp-silver/30 rounded-sm py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-dp-silver transition">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-dp-silver text-xs uppercase tracking-widest mb-2 ml-1">Cidade /
+                                    Estado</label>
+                                <input type="text" required placeholder="Ex: São Paulo - SP"
+                                    class="w-full bg-dp-blue/50 border border-dp-silver/30 rounded-sm py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-dp-silver transition">
+                            </div>
+
+                            <button type="submit"
+                                class="w-full bg-metallic hover:bg-metallic-hover text-dp-blue font-bold py-4 rounded-sm shadow-metallic transition transform hover:-translate-y-1 uppercase tracking-widest text-sm mt-4">
+                                Desbloquear Materiais
+                            </button>
+                        </form>
+
+                        <p class="text-[10px] text-gray-500 mt-4 text-center">
+                            <i class="fas fa-lock mr-1"></i> Seus dados estão seguros e serão usados para envio dos
+                            materiais.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <footer id="contato" class="py-16 bg-dp-blue border-t border-dp-silver/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+
+                <div class="reveal">
+                    <div class="flex-shrink-0 flex items-center justify-center md:justify-start mb-6">
+                        <a href="#">
+                            <img src="ChatGPT_Image_15_de_jan._de_2026__09_00_51-removebg-preview.png"
+                                alt="DP Beauty Gestão Logo" class="h-20 w-auto object-contain">
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-8">Gestão estratégica e consultoria premium para marcas de
+                        cosméticos que desejam liderar o mercado.</p>
+
+                    <div class="flex justify-center md:justify-start space-x-6">
+                        <a href="https://wa.me/+5511968443322?text=Olá,%20vim%20pelo%20site%20e%20quero%20criar%20minha%20marca!"
+                            target="_blank"
+                            class="text-2xl text-white hover:text-dp-silver transition-transform hover:scale-110">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dpbeautygestao?igsh=MWZtM2pjNzJyMDVrdg==" target="_blank"
+                            class="text-2xl text-white hover:text-dp-silver transition-transform hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="reveal delay-100">
+                    <h4 class="text-dp-silver font-bold uppercase tracking-widest mb-6">Navegação</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm mb-8">
+                        <li><a href="#inicio" class="hover:text-white transition">Início</a></li>
+                        <li><a href="#servicos" class="hover:text-white transition">Serviços</a></li>
+                        <li><a href="#ebook" class="hover:text-white transition">Sobre o Ebook</a></li>
+                    </ul>
+
+                    <a href="https://pay.hotmart.com/P103798039Q?checkoutMode=10" target="_blank"
+                        class="inline-block border border-dp-silver/50 text-dp-silver hover:bg-dp-silver/10 font-medium py-3 px-6 rounded-sm transition duration-300 uppercase tracking-wider text-xs w-full md:w-auto text-center">
+                        <i class="fas fa-book-open mr-2"></i>
+                        Comprar Ebook
+                    </a>
+                </div>
+
+                <div class="reveal delay-200">
+                    <h4 class="text-dp-silver font-bold uppercase tracking-widest mb-6">Contato Direto</h4>
+                    <p class="text-gray-400 text-sm mb-6">Fale diretamente com nossa equipe estratégica via WhatsApp.
+                    </p>
+
+                    <a href="https://wa.me/+5511968443322?text=Olá,%20vim%20pelo%20site%20e%20quero%20criar%20minha%20marca!"
+                        target="_blank"
+                        class="inline-flex items-center justify-center bg-metallic hover:bg-metallic-hover text-dp-blue font-bold py-4 px-8 rounded-sm shadow-glow transform hover:-translate-y-1 transition duration-300 w-full uppercase tracking-wider text-sm">
+                        <i class="fab fa-whatsapp mr-2 text-lg"></i>
+                        Chamar no WhatsApp
+                    </a>
+
+                    <p class="text-gray-500 text-sm mt-6 text-center md:text-left italic">
+                        <i class="fas fa-envelope mr-2"></i> contato@dpbeautygestao.com.br
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 mt-12 pt-8 text-center">
+                <p class="text-gray-500 text-xs">&copy; 2026 DP Beauty Gestão. Todos os direitos reservados. Design
+                    Premium.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast-container" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] pointer-events-none">
+        <div id="toast"
+            class="bg-white border-l-4 border-dp-silver py-4 px-6 shadow-2xl transform translate-y-20 opacity-0 transition-all duration-500 flex items-center gap-4">
+            <div class="bg-dp-blue text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="text-left">
+                <p id="toast-message" class="text-dp-blue font-bold text-sm"></p>
+                <p class="text-gray-500 text-xs">Seus materiais estão sendo baixados.</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

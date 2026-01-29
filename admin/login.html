@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrativo | DP Beauty Gestão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { dp: { blue: '#081E60', silver: '#B1B2B0' } },
+                    fontFamily: { sans: ['Lato', 'sans-serif'], serif: ['Cinzel', 'serif'] },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dp-blue min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')]"></div>
+
+    <div class="max-w-md w-full relative z-10">
+        <div class="text-center mb-8">
+            <img src="../ChatGPT_Image_15_de_jan._de_2026__09_00_51-removebg-preview.png" alt="Logo" class="h-24 mx-auto mb-6">
+            <h2 class="text-white font-serif text-2xl uppercase tracking-widest">Acesso Restrito</h2>
+            <p class="text-dp-silver text-sm">Gestão de Leads Premium</p>
+        </div>
+
+        <div class="bg-white/5 backdrop-blur-lg p-8 rounded-sm border border-dp-silver/20 shadow-2xl">
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label class="block text-dp-silver text-xs uppercase tracking-widest mb-2">E-mail</label>
+                    <input type="email" id="email" required placeholder="admin@exemplo.com"
+                        class="w-full bg-transparent border border-dp-silver/30 rounded-sm py-3 px-4 text-white focus:outline-none focus:border-dp-silver transition">
+                </div>
+                <div>
+                    <label class="block text-dp-silver text-xs uppercase tracking-widest mb-2">Senha</label>
+                    <input type="password" id="password" required placeholder="••••••••"
+                        class="w-full bg-transparent border border-dp-silver/30 rounded-sm py-3 px-4 text-white focus:outline-none focus:border-dp-silver transition">
+                </div>
+                
+                <button type="submit" id="btn-login"
+                    class="w-full bg-gradient-to-r from-[#8E8F8D] via-[#B1B2B0] to-[#D8DADB] text-dp-blue font-bold py-4 rounded-sm uppercase tracking-widest text-sm hover:scale-[1.02] transition transform">
+                    Entrar no Painel
+                </button>
+            </form>
+            <div id="error-msg" class="hidden mt-4 text-red-400 text-xs text-center border border-red-400/20 py-2 bg-red-400/10">
+                Acesso negado. Verifique suas credenciais.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // SUBSTITUA PELOS SEUS DADOS DO SUPABASE
+        const SUPABASE_URL = 'https://wmygwsmncuprbevyvlrp.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_-13BXyZNvAPUOrq_r6WPuA_thnNAOp4';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const loginForm = document.getElementById('login-form');
+        const btnLogin = document.getElementById('btn-login');
+        const errorMsg = document.getElementById('error-msg');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMsg.classList.add('hidden');
+            btnLogin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Autenticando...';
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const { data, error } = await _supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                errorMsg.classList.remove('hidden');
+                btnLogin.innerText = 'Entrar no Painel';
+            } else {
+                // Sucesso: Redireciona para a dashboard
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

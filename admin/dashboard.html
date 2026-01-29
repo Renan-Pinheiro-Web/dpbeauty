@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Leads | DP Beauty Gestão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dp: { blue: '#081E60', silver: '#B1B2B0', silverLight: '#D8DADB' }
+                    },
+                    fontFamily: { sans: ['Lato', 'sans-serif'], serif: ['Cinzel', 'serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #081E60; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #B1B2B0; border-radius: 10px; }
+        
+        .glass-card {
+            background: rgba(8, 30, 96, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(177, 178, 176, 0.2);
+        }
+        .bg-metallic {
+            background: linear-gradient(45deg, #8E8F8D, #D8DADB, #8E8F8D);
+            background-size: 200% auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen font-sans">
+
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] transform translate-y-20 opacity-0 transition-all duration-500">
+        <div class="bg-dp-blue border border-dp-silver/30 text-white px-8 py-4 rounded-sm shadow-2xl flex items-center gap-3">
+            <i class="fas fa-info-circle text-dp-silver"></i>
+            <span id="toast-message" class="uppercase tracking-widest text-xs font-bold">Ação realizada!</span>
+        </div>
+    </div>
+
+    <nav class="bg-dp-blue text-white py-4 px-6 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="../ChatGPT_Image_15_de_jan._de_2026__09_00_51-removebg-preview.png" alt="Logo" class="h-12">
+                <h1 class="hidden md:block font-serif text-lg tracking-widest border-l border-dp-silver/30 pl-4">Painel de Leads</h1>
+            </div>
+            <div class="flex items-center gap-6">
+                <span id="user-email" class="text-xs text-dp-silver hidden sm:inline"></span>
+                <button id="btn-logout" class="text-xs uppercase tracking-widest hover:text-dp-silver transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Sair
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div>
+                <h2 class="text-2xl font-serif text-dp-blue font-bold">Gestão de Clientes</h2>
+                <p class="text-sm text-gray-500">Acompanhe e gerencie os interessados nos seus materiais.</p>
+            </div>
+            <div class="relative w-full md:w-80">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="search" placeholder="Pesquisar por nome ou cidade..."
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:border-dp-blue transition">
+            </div>
+        </div>
+
+        <div class="bg-white shadow-xl rounded-sm overflow-hidden border border-gray-200">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-dp-blue font-serif text-xs uppercase tracking-wider border-b">
+                            <th class="px-6 py-4 font-bold">Data</th>
+                            <th class="px-6 py-4 font-bold">Nome Completo</th>
+                            <th class="px-6 py-4 font-bold">Cidade</th>
+                            <th class="px-6 py-4 font-bold">E-mail / WhatsApp</th>
+                            <th class="px-6 py-4 font-bold text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leads-table-body" class="divide-y divide-gray-100">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-edit" class="fixed inset-0 z-[150] hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="glass-card w-full max-w-lg p-8 rounded-sm shadow-2xl">
+            <h3 class="text-xl font-serif text-white tracking-widest mb-6 border-b border-dp-silver/20 pb-4">Editar Lead</h3>
+            <form id="form-edit-lead" class="space-y-4">
+                <input type="hidden" id="edit-id">
+                <div>
+                    <label class="block text-dp-silver text-[10px] uppercase tracking-widest mb-2">Nome Completo</label>
+                    <input type="text" id="edit-nome" required class="w-full bg-white/5 border border-dp-silver/30 rounded-sm py-2 px-4 text-white focus:outline-none focus:border-dp-silver transition">
+                </div>
+                <div>
+                    <label class="block text-dp-silver text-[10px] uppercase tracking-widest mb-2">E-mail</label>
+                    <input type="email" id="edit-email" required class="w-full bg-white/5 border border-dp-silver/30 rounded-sm py-2 px-4 text-white focus:outline-none focus:border-dp-silver transition">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-dp-silver text-[10px] uppercase tracking-widest mb-2">Telefone</label>
+                        <input type="text" id="edit-tel" required class="w-full bg-white/5 border border-dp-silver/30 rounded-sm py-2 px-4 text-white focus:outline-none focus:border-dp-silver transition">
+                    </div>
+                    <div>
+                        <label class="block text-dp-silver text-[10px] uppercase tracking-widest mb-2">Cidade</label>
+                        <input type="text" id="edit-cidade" required class="w-full bg-white/5 border border-dp-silver/30 rounded-sm py-2 px-4 text-white focus:outline-none focus:border-dp-silver transition">
+                    </div>
+                </div>
+                <div class="flex gap-4 mt-8 pt-4">
+                    <button type="button" onclick="fecharModal()" class="flex-1 py-3 text-white border border-white/20 rounded-sm hover:bg-white/10 transition uppercase tracking-widest text-[10px]">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-metallic py-3 text-dp-blue font-bold rounded-sm hover:brightness-110 transition uppercase tracking-widest text-[10px]">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://wmygwsmncuprbevyvlrp.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_-13BXyZNvAPUOrq_r6WPuA_thnNAOp4'; // Lembre-se de usar a anon public aqui
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const tableBody = document.getElementById('leads-table-body');
+        const searchInput = document.getElementById('search');
+        let allLeads = [];
+
+        // --- TOAST SYSTEM ---
+        function showToast(mensagem) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toast-message');
+            msg.innerText = mensagem;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+        }
+
+        // --- AUTH ---
+        async function checkAuth() {
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+            } else {
+                document.getElementById('user-email').innerText = session.user.email;
+                loadLeads();
+            }
+        }
+
+        // --- DATA LOAD ---
+        async function loadLeads() {
+            const { data, error } = await _supabase.from('leads').select('*').order('created_at', { ascending: false });
+            if (!error) {
+                allLeads = data;
+                renderTable(allLeads);
+            }
+        }
+
+        // --- RENDER ---
+        function renderTable(leads) {
+            tableBody.innerHTML = '';
+            if (leads.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400">Nenhum lead encontrado.</td></tr>';
+                return;
+            }
+
+            leads.forEach(lead => {
+                const dataFormatada = new Date(lead.created_at).toLocaleDateString('pt-BR');
+                const whatsAppNumber = lead.telefone.replace(/\D/g, '');
+
+                tableBody.innerHTML += `
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="px-6 py-4 text-[10px] text-gray-500 uppercase tracking-tighter">${dataFormatada}</td>
+                        <td class="px-6 py-4 font-bold text-dp-blue text-sm">${lead.nome}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${lead.cidade}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-gray-400 mb-1">${lead.email}</span>
+                                <a href="https://wa.me/55${whatsAppNumber}" target="_blank" class="text-green-600 hover:text-green-700 font-bold text-sm flex items-center gap-1">
+                                    <i class="fab fa-whatsapp"></i> ${lead.telefone}
+                                </a>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex justify-center gap-4">
+                                <button onclick="abrirModalEdicao('${lead.id}')" class="text-blue-400 hover:text-blue-600 transition" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button onclick="deletarLead('${lead.id}')" class="text-red-300 hover:text-red-500 transition" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // --- BUSCA ---
+        searchInput.addEventListener('input', (e) => {
+            const termo = e.target.value.toLowerCase();
+            const filtrados = allLeads.filter(l => 
+                l.nome.toLowerCase().includes(termo) || l.cidade.toLowerCase().includes(termo)
+            );
+            renderTable(filtrados);
+        });
+
+        // --- EDITAR (MODAL) ---
+        async function abrirModalEdicao(id) {
+            const lead = allLeads.find(l => l.id === id);
+            if (lead) {
+                document.getElementById('edit-id').value = lead.id;
+                document.getElementById('edit-nome').value = lead.nome;
+                document.getElementById('edit-email').value = lead.email;
+                document.getElementById('edit-tel').value = lead.telefone;
+                document.getElementById('edit-cidade').value = lead.cidade;
+                document.getElementById('modal-edit').classList.remove('hidden');
+            }
+        }
+
+        function fecharModal() {
+            document.getElementById('modal-edit').classList.add('hidden');
+        }
+
+        document.getElementById('form-edit-lead').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const dados = {
+                nome: document.getElementById('edit-nome').value,
+                email: document.getElementById('edit-email').value,
+                telefone: document.getElementById('edit-tel').value,
+                cidade: document.getElementById('edit-cidade').value
+            };
+
+            const { error } = await _supabase.from('leads').update(dados).eq('id', id);
+            if (!error) {
+                showToast("DADOS ATUALIZADOS COM SUCESSO");
+                fecharModal();
+                loadLeads();
+            }
+        });
+
+        // --- EXCLUIR ---
+        async function deletarLead(id) {
+            const { error } = await _supabase.from('leads').delete().eq('id', id);
+            if (!error) {
+                showToast("LEAD EXCLUÍDO COM SUCESSO");
+                loadLeads();
+            }
+        }
+
+        // --- LOGOUT ---
+        document.getElementById('btn-logout').addEventListener('click', async () => {
+            await _supabase.auth.signOut();
+            window.location.href = 'login.html';
+        });
+
+        checkAuth();
+    </script>
+</body>
+</html>
