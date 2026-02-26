@@ -125,145 +125,130 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = 'https://wmygwsmncuprbevyvlrp.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_-13BXyZNvAPUOrq_r6WPuA_thnNAOp4'; // Lembre-se de usar a anon public aqui
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const API_URL    = 'https://SEU-DOMINIO.com/api'; // ← Ajuste
+  const token     = sessionStorage.getItem('dp_token');
+  const authHeader = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
 
-        const tableBody = document.getElementById('leads-table-body');
-        const searchInput = document.getElementById('search');
-        let allLeads = [];
+  const tableBody  = document.getElementById('leads-table-body');
+  const searchInput = document.getElementById('search');
+  let allLeads = [];
 
-        // --- TOAST SYSTEM ---
-        function showToast(mensagem) {
-            const toast = document.getElementById('toast');
-            const msg = document.getElementById('toast-message');
-            msg.innerText = mensagem;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
-        }
+  // TOAST (igual ao original)
+  function showToast(mensagem) {
+    const toast = document.getElementById('toast');
+    const msg   = document.getElementById('toast-message');
+    msg.innerText = mensagem;
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+  }
 
-        // --- AUTH ---
-        async function checkAuth() {
-            const { data: { session } } = await _supabase.auth.getSession();
-            if (!session) {
-                window.location.href = 'login.html';
-            } else {
-                document.getElementById('user-email').innerText = session.user.email;
-                loadLeads();
-            }
-        }
+  // AUTH CHECK
+  async function checkAuth() {
+    if (!token) { window.location.href = 'login.html'; return; }
+    try {
+      const res  = await fetch(`${API_URL}/auth/me`, { headers: authHeader });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      document.getElementById('user-email').innerText = data.email;
+      loadLeads();
+    } catch { window.location.href = 'login.html'; }
+  }
 
-        // --- DATA LOAD ---
-        async function loadLeads() {
-            const { data, error } = await _supabase.from('leads').select('*').order('created_at', { ascending: false });
-            if (!error) {
-                allLeads = data;
-                renderTable(allLeads);
-            }
-        }
+  // LOAD LEADS
+  async function loadLeads() {
+    const res  = await fetch(`${API_URL}/leads`, { headers: authHeader });
+    const data = await res.json();
+    allLeads = data;
+    renderTable(allLeads);
+  }
 
-        // --- RENDER ---
-        function renderTable(leads) {
-            tableBody.innerHTML = '';
-            if (leads.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400">Nenhum lead encontrado.</td></tr>';
-                return;
-            }
+  // RENDER TABLE (idêntico ao original)
+  function renderTable(leads) {
+    tableBody.innerHTML = '';
+    if (leads.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400">Nenhum lead encontrado.</td></tr>';
+      return;
+    }
+    leads.forEach(lead => {
+      const dataFormatada  = new Date(lead.created_at).toLocaleDateString('pt-BR');
+      const whatsAppNumber = lead.telefone.replace(/\D/g, '');
+      tableBody.innerHTML += `
+        <tr class="hover:bg-gray-50 transition">
+          <td class="px-6 py-4 text-[10px] text-gray-500">${dataFormatada}</td>
+          <td class="px-6 py-4 font-bold text-dp-blue text-sm">${lead.nome}</td>
+          <td class="px-6 py-4 text-sm text-gray-600">${lead.cidade}</td>
+          <td class="px-6 py-4">
+            <div class="flex flex-col">
+              <span class="text-[10px] text-gray-400 mb-1">${lead.email}</span>
+              <a href="https://wa.me/55${whatsAppNumber}" target="_blank" class="text-green-600 font-bold text-sm flex items-center gap-1">
+                <i class="fab fa-whatsapp"></i> ${lead.telefone}
+              </a>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-center">
+            <div class="flex justify-center gap-4">
+              <button onclick="abrirModalEdicao('${lead.id}')" class="text-blue-400 hover:text-blue-600 transition"><i class="fas fa-pencil-alt"></i></button>
+              <button onclick="deletarLead('${lead.id}')" class="text-red-300 hover:text-red-500 transition"><i class="fas fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>`;
+    });
+  }
 
-            leads.forEach(lead => {
-                const dataFormatada = new Date(lead.created_at).toLocaleDateString('pt-BR');
-                const whatsAppNumber = lead.telefone.replace(/\D/g, '');
+  // BUSCA
+  searchInput.addEventListener('input', e => {
+    const termo = e.target.value.toLowerCase();
+    renderTable(allLeads.filter(l =>
+      l.nome.toLowerCase().includes(termo) || l.cidade.toLowerCase().includes(termo)
+    ));
+  });
 
-                tableBody.innerHTML += `
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-6 py-4 text-[10px] text-gray-500 uppercase tracking-tighter">${dataFormatada}</td>
-                        <td class="px-6 py-4 font-bold text-dp-blue text-sm">${lead.nome}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600">${lead.cidade}</td>
-                        <td class="px-6 py-4">
-                            <div class="flex flex-col">
-                                <span class="text-[10px] text-gray-400 mb-1">${lead.email}</span>
-                                <a href="https://wa.me/55${whatsAppNumber}" target="_blank" class="text-green-600 hover:text-green-700 font-bold text-sm flex items-center gap-1">
-                                    <i class="fab fa-whatsapp"></i> ${lead.telefone}
-                                </a>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <div class="flex justify-center gap-4">
-                                <button onclick="abrirModalEdicao('${lead.id}')" class="text-blue-400 hover:text-blue-600 transition" title="Editar">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button onclick="deletarLead('${lead.id}')" class="text-red-300 hover:text-red-500 transition" title="Excluir">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
+  // EDITAR
+  function abrirModalEdicao(id) {
+    const lead = allLeads.find(l => l.id == id);
+    if (!lead) return;
+    document.getElementById('edit-id').value     = lead.id;
+    document.getElementById('edit-nome').value   = lead.nome;
+    document.getElementById('edit-email').value  = lead.email;
+    document.getElementById('edit-tel').value    = lead.telefone;
+    document.getElementById('edit-cidade').value = lead.cidade;
+    document.getElementById('modal-edit').classList.remove('hidden');
+  }
 
-        // --- BUSCA ---
-        searchInput.addEventListener('input', (e) => {
-            const termo = e.target.value.toLowerCase();
-            const filtrados = allLeads.filter(l => 
-                l.nome.toLowerCase().includes(termo) || l.cidade.toLowerCase().includes(termo)
-            );
-            renderTable(filtrados);
-        });
+  function fecharModal() {
+    document.getElementById('modal-edit').classList.add('hidden');
+  }
 
-        // --- EDITAR (MODAL) ---
-        async function abrirModalEdicao(id) {
-            const lead = allLeads.find(l => l.id === id);
-            if (lead) {
-                document.getElementById('edit-id').value = lead.id;
-                document.getElementById('edit-nome').value = lead.nome;
-                document.getElementById('edit-email').value = lead.email;
-                document.getElementById('edit-tel').value = lead.telefone;
-                document.getElementById('edit-cidade').value = lead.cidade;
-                document.getElementById('modal-edit').classList.remove('hidden');
-            }
-        }
+  document.getElementById('form-edit-lead').addEventListener('submit', async e => {
+    e.preventDefault();
+    const id = document.getElementById('edit-id').value;
+    const dados = {
+      nome:     document.getElementById('edit-nome').value,
+      email:    document.getElementById('edit-email').value,
+      telefone: document.getElementById('edit-tel').value,
+      cidade:   document.getElementById('edit-cidade').value
+    };
+    const res = await fetch(`${API_URL}/leads/${id}`, {
+      method: 'PUT', headers: authHeader, body: JSON.stringify(dados)
+    });
+    if (res.ok) { showToast('DADOS ATUALIZADOS COM SUCESSO'); fecharModal(); loadLeads(); }
+  });
 
-        function fecharModal() {
-            document.getElementById('modal-edit').classList.add('hidden');
-        }
+  // EXCLUIR
+  async function deletarLead(id) {
+    const res = await fetch(`${API_URL}/leads/${id}`, { method: 'DELETE', headers: authHeader });
+    if (res.ok) { showToast('LEAD EXCLUÍDO COM SUCESSO'); loadLeads(); }
+  }
 
-        document.getElementById('form-edit-lead').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('edit-id').value;
-            const dados = {
-                nome: document.getElementById('edit-nome').value,
-                email: document.getElementById('edit-email').value,
-                telefone: document.getElementById('edit-tel').value,
-                cidade: document.getElementById('edit-cidade').value
-            };
+  // LOGOUT
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    sessionStorage.removeItem('dp_token');
+    sessionStorage.removeItem('dp_email');
+    window.location.href = 'login.html';
+  });
 
-            const { error } = await _supabase.from('leads').update(dados).eq('id', id);
-            if (!error) {
-                showToast("DADOS ATUALIZADOS COM SUCESSO");
-                fecharModal();
-                loadLeads();
-            }
-        });
-
-        // --- EXCLUIR ---
-        async function deletarLead(id) {
-            const { error } = await _supabase.from('leads').delete().eq('id', id);
-            if (!error) {
-                showToast("LEAD EXCLUÍDO COM SUCESSO");
-                loadLeads();
-            }
-        }
-
-        // --- LOGOUT ---
-        document.getElementById('btn-logout').addEventListener('click', async () => {
-            await _supabase.auth.signOut();
-            window.location.href = 'login.html';
-        });
-
-        checkAuth();
-    </script>
+  checkAuth();
+</script>
 </body>
 </html>
